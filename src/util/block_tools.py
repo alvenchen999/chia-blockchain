@@ -34,6 +34,7 @@ from src.consensus.block_record import BlockRecord
 from src.consensus.vdf_info_computation import get_signage_point_vdf_info
 from src.plotting.plot_tools import load_plots, PlotInfo
 from src.types.classgroup import ClassgroupElement
+from src.types.coin import Coin
 from src.types.end_of_slot_bundle import EndOfSubSlotBundle
 from src.types.full_block import FullBlock
 from src.types.pool_target import PoolTarget
@@ -226,6 +227,8 @@ class BlockTools:
         farmer_reward_puzzle_hash: Optional[bytes32] = None,
         pool_reward_puzzle_hash: Optional[bytes32] = None,
         transaction_data: Optional[SpendBundle] = None,
+        additions: Optional[List[Coin]] = None,
+        removals: Optional[List[Coin]] = None,
         seed: bytes = b"",
         time_per_block: Optional[float] = None,
         force_overflow: bool = False,
@@ -373,6 +376,8 @@ class BlockTools:
                             start_height,
                             time_per_block,
                             transaction_data,
+                            additions,
+                            removals,
                             height_to_hash,
                             difficulty,
                             required_iters,
@@ -579,6 +584,8 @@ class BlockTools:
                             start_height,
                             time_per_block,
                             transaction_data,
+                            additions,
+                            removals,
                             height_to_hash,
                             difficulty,
                             required_iters,
@@ -1121,6 +1128,8 @@ def get_full_block_and_sub_record(
     start_height: uint32,
     time_per_block: float,
     transaction_data: Optional[SpendBundle],
+    additions: Optional[List[Coin]],
+    removals: Optional[List[Coin]],
     height_to_hash: Dict[uint32, bytes32],
     difficulty: uint64,
     required_iters: uint64,
@@ -1154,6 +1163,8 @@ def get_full_block_and_sub_record(
         BlockCache(blocks),
         seed,
         transaction_data,
+        additions,
+        removals,
         prev_block,
         finished_sub_slots,
     )
